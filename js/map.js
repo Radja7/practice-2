@@ -18,7 +18,7 @@ var LOCATION_MIN_X = 100;
 var LOCATION_MIN_Y = 130;
 var LOCATION_MAX_Y = 630;
 
-document.querySelector('.map').classList.remove('map--faded');
+//document.querySelector('.map').classList.remove('map--faded');
 var locationMaxX = document.querySelector('.map').offsetWidth - 100;
 var mapPinWidth = document.querySelector('.map__pin').children[0].getAttribute('width');
 var mapPinHeight = document.querySelector('.map__pin').children[0].getAttribute('height');
@@ -138,8 +138,6 @@ var getMapPinFragment = function(adverts){
     pinElements.appendChild(fragment);
 };
 
-getMapPinFragment(adverts); // отрисовать метки
-
 
 // Отрисуем объявления
 var mapCardTemplate = document.querySelector('#map-template').content.querySelector('.map__card');
@@ -185,19 +183,65 @@ var renderCardOffers = function(charactersCard) {
     return mapCardElement;
 };
 
-var getCardFragment = function() {
-    var cardFragment = document.createDocumentFragment();
+var getCardFragment = function(indexPinsData) {
 
-    for (var i = 0; i < adverts.length; i++) {
-        cardFragment.appendChild(renderCardOffers(adverts[i]));
-
-        document.querySelector('.map').insertBefore(cardFragment, document.querySelector('.map__filter-container'));
+    var card = renderCardOffers(adverts[indexPinsData]);
+    var openedCard = map.querySelector('.map__card');
+    if(openedCard) {
+        map.removeChild(openedCard);
     }
 
+    document.querySelector('.map__filters-container').insertAdjacentElement('beforebegin', card);
 
+    // var cardFragment = document.createDocumentFragment();
+    //
+    // for (var i = 0; i < adverts.length; i++) {
+    //     cardFragment.appendChild(renderCardOffers(adverts[i]));
+    //
+    //     document.querySelector('.map').insertBefore(cardFragment, document.querySelector('.map__filter-container'));
+    // }
 };
 
-getCardFragment(adverts); // отрисовать рекламные карточки
+// Активация активного режима
+var mainPin = document.querySelector('.map__pin--main');
+var map = document.querySelector('.map');
+var advertForm = document.querySelector('.notice__form');
+var fieldsetsAdvertForm = advertForm.querySelectorAll('fieldset');
+
+function enableFields() {
+    var advertFormAddress = document.querySelector('#address');
+    var mainPinSize = {
+        WIDTH: 65,
+        HEIGHT: 65
+    };
+
+    advertFormAddress.value = (mainPin.getBoundingClientRect().left + pageXOffset + mainPinSize.WIDTH / 2) + ', ' + (mainPin.getBoundingClientRect().top + pageYOffset + mainPinSize.HEIGHT / 2);
+    advertForm.classList.remove('notice__form--disabled');
+
+    fieldsetsAdvertForm.forEach(function (fieldset) {
+        fieldset.disabled = false;
+    });
+}
+
+function buttonMouseupHandler(e) {
+    map.classList.remove('map--faded');
+
+    enableFields();
+    getMapPinFragment(adverts); // отрисовать метки
+
+    var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (pin, pinCount) {
+        pin.addEventListener('click', function () {
+            console.log(pinCount);
+            getCardFragment(pinCount); // отрисовать рекламные карточки
+        });
+    });
+}
+
+mainPin.addEventListener('mouseup', buttonMouseupHandler);
+//////////////////////////////////////////////////
+
 
 
 
