@@ -13,5 +13,20 @@
             });
         }
 
+    },
+
+    advertForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        console.log('SUBMIT');
+        window.backend.send(new FormData(form), successHandler, errorHandler);
+    });
+
+    function successHandler() {
+        console.log('Отправил');
     }
+
+    function errorHandler() {
+        console.log('Ошибка');
+    }
+
 })();

@@ -2,7 +2,10 @@
 
 (function () {
     // Отрисовка меток
-    var adverts = window.pin.create(window.data.NUMBER_OF_ADVERTS);
+    //var adverts = window.pin.create(window.data.NUMBER_OF_ADVERTS);
+    var adverts = window.adverts.request();
+    console.log(adverts);
+
     var pinElements = document.querySelector('.map__pins');
 
     var mainPin = document.querySelector('.map__pin--main');
@@ -107,6 +110,7 @@
             enableFields();
 
             pinElements.appendChild(window.pin.getFragment(adverts)); // отрисовать метки
+            //pinElements.appendChild(window.pin.getFragment(window.backend.load));
 
             var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
 
