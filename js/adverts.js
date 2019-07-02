@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+    var mapsBlock = document.querySelector('.map__pins');
+
     window.adverts = {
         request: request,
         loadList: []
@@ -12,7 +14,14 @@
     }
 
     function err () {
-        console.log('Error');
+        if(!mapsBlock.querySelector('.error')) {
+
+            var newTag = document.createElement('p');
+            newTag.classList.add('error');
+            newTag.innerHTML = 'Произошла ошибка загрузки данных';
+            mapsBlock.appendChild(newTag);
+
+        }
     }
 
     function loadHandler (data) {

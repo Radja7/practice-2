@@ -41,6 +41,10 @@
             }
 
             return finishArray;
+        },
+
+        errorHandler: function (errText) {
+            console.log('Ошибка: ' + errText);
         }
 
     }

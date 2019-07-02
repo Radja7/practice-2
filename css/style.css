@@ -700,3 +700,15 @@ textarea:focus {
 .footer-social-item-vk {
   background-position: -10px -10px;
 }
+
+.error{
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: red;
+  border: 1px solid red;
+  background: #fff;
+  padding: 10px;
+}

@@ -48,12 +48,14 @@
             }
         });
 
+
         xhr.addEventListener('error', function () {
             onError('Произошла ошибка соединения');
         });
 
         xhr.timeout = TIME_OUT;
         xhr.open('POST', URL);
+        xhr.send(data);
     }
 
 })();
